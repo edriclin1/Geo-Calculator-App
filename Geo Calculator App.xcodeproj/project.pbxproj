@@ -14,6 +14,7 @@
 		3FD728B020ABA055006CDD5B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FD728AE20ABA055006CDD5B /* LaunchScreen.storyboard */; };
 		3FD728BB20ABA055006CDD5B /* Geo_Calculator_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD728BA20ABA055006CDD5B /* Geo_Calculator_AppTests.swift */; };
 		3FD728C620ABA055006CDD5B /* Geo_Calculator_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD728C520ABA055006CDD5B /* Geo_Calculator_AppUITests.swift */; };
+		3FD728DA20ABA78D006CDD5B /* DecimalMinusTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD728D920ABA78D006CDD5B /* DecimalMinusTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		3FD728C120ABA055006CDD5B /* Geo Calculator AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Geo Calculator AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FD728C520ABA055006CDD5B /* Geo_Calculator_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geo_Calculator_AppUITests.swift; sourceTree = "<group>"; };
 		3FD728C720ABA055006CDD5B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3FD728D920ABA78D006CDD5B /* DecimalMinusTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DecimalMinusTextField.swift; path = "../../DecimalMinusTextField-master/DecimalMinusTextField.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 				3FD728AC20ABA055006CDD5B /* Assets.xcassets */,
 				3FD728AE20ABA055006CDD5B /* LaunchScreen.storyboard */,
 				3FD728B120ABA055006CDD5B /* Info.plist */,
+				3FD728D920ABA78D006CDD5B /* DecimalMinusTextField.swift */,
 			);
 			path = "Geo Calculator App";
 			sourceTree = "<group>";
@@ -256,6 +259,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FD728DA20ABA78D006CDD5B /* DecimalMinusTextField.swift in Sources */,
 				3FD728A820ABA04C006CDD5B /* ViewController.swift in Sources */,
 				3FD728A620ABA04C006CDD5B /* AppDelegate.swift in Sources */,
 			);
