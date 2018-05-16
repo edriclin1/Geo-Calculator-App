@@ -9,7 +9,12 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
+    @IBOutlet weak var p1LatField: DecimalMinusTextField!
+    @IBOutlet weak var p2LatField: DecimalMinusTextField!
+    @IBOutlet weak var p1LongField: DecimalMinusTextField!
+    @IBOutlet weak var p2LongField: DecimalMinusTextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,6 +31,12 @@ class ViewController: UIViewController {
 
     @objc func dismissKeyboard() {
         self.view.endEditing(true)
+    }
+    
+    @IBAction func calculateButtonPressed(_ sender: UIButton) {
+    }
+    
+    @IBAction func clearButtonPressed(_ sender: UIButton) {
     }
 }
 
