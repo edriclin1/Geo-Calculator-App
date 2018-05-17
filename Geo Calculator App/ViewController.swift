@@ -16,6 +16,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var p1LongField: DecimalMinusTextField!
     @IBOutlet weak var p2LongField: DecimalMinusTextField!
     
+    @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var bearingLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -53,11 +56,22 @@ class ViewController: UIViewController {
         // if all points valid
         if pointsOk {
             
-            // create points from latitudes and longitudes
-            var p1: CLLocation = CLLocation(latitude: Double(self.p1LatField.text!)!, longitude: Double(self.p1LongField.text!)!)
-            var p2: CLLocation = CLLocation(latitude: Double(self.p2LatField.text!)!, longitude: Double(self.p2LongField.text!)!)
+            // create CLLocation (points) from latitudes and longitudes
+            let p1: CLLocation = CLLocation(latitude: Double(self.p1LatField.text!)!, longitude: Double(self.p1LongField.text!)!)
+            let p2: CLLocation = CLLocation(latitude: Double(self.p2LatField.text!)!, longitude: Double(self.p2LongField.text!)!)
             
-            // calculate distance between p1 and p2
+            // calculate and set distance between p1 and p2 in km. round to 2 decimal places
+            var distance: Double = p1.distance(from: p2) / 1000
+            distance = (distance * 100).rounded() / 100
+            self.distanceLabel.text = "Distance: \(distance)"
+            
+            // calculate and set bearing between p1 and p2 in decimal degrees
+            var bearing: Double = p1.bearingToPoint(point: p2)
+            bearing = (bearing * 100).rounded() / 100
+            self.bearingLabel.text = "Bearing: \(bearing)"
+        } else {
+            self.distanceLabel.text = "Distance:"
+            self.bearingLabel.text = "Bearing:"
             
         }
     }
@@ -68,5 +82,9 @@ class ViewController: UIViewController {
         p1LongField.text = ""
         p2LongField.text = ""
     }
+    
+    @IBAction func settingsButtonPressed(_ sender: UIButton) {
+    }
+    
 }
 
