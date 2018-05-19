@@ -47,11 +47,13 @@ class ViewController: UIViewController, SettingsViewControllerDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let dest = segue.destination as? SettingsViewController {
-            dest.delegate = self
-            dest.distanceUnitsLabel.text = self.distanceUnits
-            dest.bearingUnitsLabel.text = self.bearingUnits
+        if let dest = segue.destination as? UINavigationController {
+            if let settings = dest.visibleViewController as? SettingsViewController {
+                settings.delegate = self
+                //settings.distanceUnitsLabel.text = self.distanceUnits
+                //settings.bearingUnitsLabel.text = self.bearingUnits
             print("hello")
+            }
         }
         print("world")
     }

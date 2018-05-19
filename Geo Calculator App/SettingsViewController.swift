@@ -43,7 +43,18 @@ class SettingsViewController: UIViewController {
         let detectTouch = UITapGestureRecognizer(target: self, action:
             #selector(self.dismissPickerView))
         self.view.addGestureRecognizer(detectTouch)
+
         
+// FIX
+        
+        let main = self.parent as? ViewController
+        distanceUnitsLabel.text = main?.distanceUnits
+        bearingUnitsLabel.text = main?.bearingUnits
+        
+        print(main?.distanceUnits)
+        
+        
+// FIX
     }
 
     override func didReceiveMemoryWarning() {
@@ -114,8 +125,8 @@ class SettingsViewController: UIViewController {
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         if let d = self.delegate {
-            d.applyDistanceUnitsSelection(distanceUnits: selection)
-            d.applyBearingUnitsSelection(bearingUnits: selection)
+            d.applyDistanceUnitsSelection(distanceUnits: distanceUnitsLabel.text!)
+            d.applyBearingUnitsSelection(bearingUnits: bearingUnitsLabel.text!)
         }
         self.dismiss(animated: true, completion: nil)
     }
