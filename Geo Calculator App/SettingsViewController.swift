@@ -8,18 +8,24 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate  {
+internal protocol SettingsViewControllerDelegate {
+    func applyDistanceUnitsSelection(distanceUnits: String)
+    func applyBearingUnitsSelection(bearingUnits: String)
+}
+
+class SettingsViewController: UIViewController {
 
     @IBOutlet weak var distanceUnitsLabel: UILabel!
     @IBOutlet weak var bearingUnitsLabel: UILabel!
     @IBOutlet weak var unitsPickerView: UIPickerView!
     
     var pickerData: [String] = [String]()
-    var selection : String = "Steak"
+    var selection : String = ""
+    var delegate : SettingsViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // open uipickerview for distance when distance label clicked
         let detectDistanceTouch = UITapGestureRecognizer(target: self, action:
             #selector(self.showDistanceUnitsPickerView))
@@ -33,6 +39,11 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
         self.unitsPickerView.delegate = self
         self.unitsPickerView.dataSource = self
         
+        // dismiss pickerview when tapping outside of picker
+        let detectTouch = UITapGestureRecognizer(target: self, action:
+            #selector(self.dismissPickerView))
+        self.view.addGestureRecognizer(detectTouch)
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -41,14 +52,58 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
     }
     
     @objc func showDistanceUnitsPickerView() {
-        self.pickerData = ["Kilometers", "Miles"]
+        
+        // show picker and load distance data
         self.unitsPickerView.isHidden = false
+        self.pickerData = ["Kilometers", "Miles"]
+        
+        // start picker view with current distance selection
+        self.selection = distanceUnitsLabel.text!
+        let row: Int = pickerData.index(of: self.selection)!
+        self.unitsPickerView.selectRow(row, inComponent: 0, animated: true)
+        
+        // reload picker with distance units
+        self.unitsPickerView.reloadAllComponents()
+    }
+    
+    @objc func showBearingUnitsPickerView() {
+        
+        // show picker and load bearing data
+        self.unitsPickerView.isHidden = false
+        self.pickerData = ["Degrees", "Mils"]
+        
+        // start picker with curretn bearing selection
+        self.selection = bearingUnitsLabel.text!
+        let row: Int = pickerData.index(of: self.selection)!
+        self.unitsPickerView.selectRow(row, inComponent: 0, animated: true)
+        
+        // reload picker with bearing components
+        self.unitsPickerView.reloadAllComponents()
+    }
+    
+    @objc func dismissPickerView() {
+        self.unitsPickerView.isHidden = true
+        
+        // set distance units label if picker was selecting distance units
+        if self.selection == "Kilometers" || selection == "Miles" {
+            self.distanceUnitsLabel.text = selection
+        }
+        
+        // else set bearing units label
+        else {
+            self.bearingUnitsLabel.text = selection
+        }
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if let d = self.delegate {
+            d.applyDistanceUnitsSelection(distanceUnits: selection)
+            d.applyBearingUnitsSelection(bearingUnits: selection)
+        }
     }
 
-    @objc func showBearingUnitsPickerView() {
-        self.pickerData = ["Degrees", "Mils"]
-        self.unitsPickerView.isHidden = false
-    }
     
     /*
     // MARK: - Navigation
@@ -60,14 +115,18 @@ class SettingsViewController: UIViewController, UIPickerViewDataSource, UIPicker
     }
     */
 
-    @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {        self.dismiss(animated: true, completion: nil)
+    @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
+        self.dismiss(animated: true, completion: nil)
         
     }
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true, completion: nil)
     }
-    
+}
+
+extension SettingsViewController : UIPickerViewDataSource, UIPickerViewDelegate {
+    // The number of columns of data
     func numberOfComponents(in: UIPickerView) -> Int
     {
         return 1

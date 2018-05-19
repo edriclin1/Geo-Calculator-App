@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, SettingsViewControllerDelegate {
     
     @IBOutlet weak var p1LatField: DecimalMinusTextField!
     @IBOutlet weak var p2LatField: DecimalMinusTextField!
@@ -18,6 +18,9 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var bearingLabel: UILabel!
+    
+    var distanceUnits = "Kilometers"
+    var bearingUnits = "Degrees"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +36,19 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    func applyDistanceUnitsSelection(distanceUnits: String) {
+        self.distanceUnits = distanceUnits
+    }
+    
+    func applyBearingUnitsSelection(bearingUnits: String) {
+        self.bearingUnits = bearingUnits
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let dest = segue.destination as? SettingsViewController {
+            dest.delegate = self
+        }
+    }
     @objc func dismissKeyboard() {
         self.view.endEditing(true)
     }
@@ -60,15 +76,30 @@ class ViewController: UIViewController {
             let p1: CLLocation = CLLocation(latitude: Double(self.p1LatField.text!)!, longitude: Double(self.p1LongField.text!)!)
             let p2: CLLocation = CLLocation(latitude: Double(self.p2LatField.text!)!, longitude: Double(self.p2LongField.text!)!)
             
-            // calculate and set distance between p1 and p2 in km. round to 2 decimal places
+            // calculate distance between p1 and p2 in km. round to 2 decimal places
             var distance: Double = p1.distance(from: p2) / 1000
             distance = (distance * 100).rounded() / 100
-            self.distanceLabel.text = "Distance: \(distance)"
+            
+            // convert distance to miles if distance units is miles
+            if distanceUnits == "Miles" {
+                distance = distance * 0.621371
+            }
+            
+            // set distance label
+            self.distanceLabel.text = "Distance: \(distance) " + distanceUnits
             
             // calculate and set bearing between p1 and p2 in decimal degrees
             var bearing: Double = p1.bearingToPoint(point: p2)
             bearing = (bearing * 100).rounded() / 100
-            self.bearingLabel.text = "Bearing: \(bearing)"
+            
+            // convert degrees to mils if bearing units is mils
+            if bearingUnits == "Mil" {
+                bearing = bearing * 17.777777777778
+            }
+            
+            // set bearing label
+            self.bearingLabel.text = "Bearing: \(bearing) " + bearingUnits
+            
         } else {
             self.distanceLabel.text = "Distance:"
             self.bearingLabel.text = "Bearing:"
