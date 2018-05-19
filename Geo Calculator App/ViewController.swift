@@ -36,10 +36,12 @@ class ViewController: UIViewController, SettingsViewControllerDelegate {
         // Dispose of any resources that can be recreated.
     }
 
+    // protocol from settings view
     func applyDistanceUnitsSelection(distanceUnits: String) {
         self.distanceUnits = distanceUnits
     }
     
+    // protocol from settings view
     func applyBearingUnitsSelection(bearingUnits: String) {
         self.bearingUnits = bearingUnits
     }
@@ -47,8 +49,13 @@ class ViewController: UIViewController, SettingsViewControllerDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let dest = segue.destination as? SettingsViewController {
             dest.delegate = self
+            dest.distanceUnitsLabel.text = self.distanceUnits
+            dest.bearingUnitsLabel.text = self.bearingUnits
+            print("hello")
         }
+        print("world")
     }
+    
     @objc func dismissKeyboard() {
         self.view.endEditing(true)
     }
@@ -116,6 +123,5 @@ class ViewController: UIViewController, SettingsViewControllerDelegate {
     
     @IBAction func settingsButtonPressed(_ sender: UIButton) {
     }
-    
 }
 

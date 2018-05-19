@@ -52,15 +52,15 @@ class SettingsViewController: UIViewController {
     }
     
     @objc func showDistanceUnitsPickerView() {
-        
         // show picker and load distance data
         self.unitsPickerView.isHidden = false
         self.pickerData = ["Kilometers", "Miles"]
         
         // start picker view with current distance selection
         self.selection = distanceUnitsLabel.text!
-        let row: Int = pickerData.index(of: self.selection)!
-        self.unitsPickerView.selectRow(row, inComponent: 0, animated: true)
+        if let row: Int = pickerData.index(of: self.selection) {
+            self.unitsPickerView.selectRow(row, inComponent: 0, animated: true)
+        }
         
         // reload picker with distance units
         self.unitsPickerView.reloadAllComponents()
@@ -74,8 +74,9 @@ class SettingsViewController: UIViewController {
         
         // start picker with curretn bearing selection
         self.selection = bearingUnitsLabel.text!
-        let row: Int = pickerData.index(of: self.selection)!
-        self.unitsPickerView.selectRow(row, inComponent: 0, animated: true)
+        if let row: Int = pickerData.index(of: self.selection) {
+            self.unitsPickerView.selectRow(row, inComponent: 0, animated: true)
+        }
         
         // reload picker with bearing components
         self.unitsPickerView.reloadAllComponents()
@@ -96,15 +97,6 @@ class SettingsViewController: UIViewController {
         
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        if let d = self.delegate {
-            d.applyDistanceUnitsSelection(distanceUnits: selection)
-            d.applyBearingUnitsSelection(bearingUnits: selection)
-        }
-    }
-
-    
     /*
     // MARK: - Navigation
 
@@ -121,6 +113,10 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
+        if let d = self.delegate {
+            d.applyDistanceUnitsSelection(distanceUnits: selection)
+            d.applyBearingUnitsSelection(bearingUnits: selection)
+        }
         self.dismiss(animated: true, completion: nil)
     }
 }
