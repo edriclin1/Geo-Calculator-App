@@ -19,8 +19,8 @@ class ViewController: UIViewController, SettingsViewControllerDelegate {
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var bearingLabel: UILabel!
     
-    var distanceUnits = "Kilometers"
-    var bearingUnits = "Degrees"
+    var distanceUnits: String = "Kilometers"
+    var bearingUnits: String = "Degrees"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,15 +47,15 @@ class ViewController: UIViewController, SettingsViewControllerDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let dest = segue.destination as? UINavigationController {
-            if let settings = dest.visibleViewController as? SettingsViewController {
-                settings.delegate = self
-                //settings.distanceUnitsLabel.text = self.distanceUnits
-                //settings.bearingUnitsLabel.text = self.bearingUnits
-            print("hello")
+        
+        if let navVC = segue.destination as? UINavigationController {
+            if let settingsVC = navVC.viewControllers.first as? SettingsViewController {
+                settingsVC.delegate = self
+                settingsVC.distanceUnits = self.distanceUnits
+                settingsVC.bearingUnits = self.bearingUnits
             }
         }
-        print("world")
+
     }
     
     @objc func dismissKeyboard() {
@@ -111,8 +111,7 @@ class ViewController: UIViewController, SettingsViewControllerDelegate {
             
         } else {
             self.distanceLabel.text = "Distance:"
-            self.bearingLabel.text = "Bearing:"
-            
+            self.bearingLabel.text = "Bearing:"            
         }
     }
     
