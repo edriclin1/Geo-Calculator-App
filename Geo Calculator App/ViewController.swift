@@ -19,6 +19,8 @@ class ViewController: UIViewController, SettingsViewControllerDelegate {
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var bearingLabel: UILabel!
     
+    @IBOutlet weak var calculateButton: UIButton!
+    
     var distanceUnits: String = "Kilometers"
     var bearingUnits: String = "Degrees"
     
@@ -36,14 +38,23 @@ class ViewController: UIViewController, SettingsViewControllerDelegate {
         // Dispose of any resources that can be recreated.
     }
 
-    // protocol from settings view
+/*    // protocol from settings view
     func applyDistanceUnitsSelection(distanceUnits: String) {
         self.distanceUnits = distanceUnits
+        calculateButton.sendActions(for: .touchUpInside)
     }
     
     // protocol from settings view
     func applyBearingUnitsSelection(bearingUnits: String) {
         self.bearingUnits = bearingUnits
+        calculateButton.sendActions(for: .touchUpInside)
+    } */
+    
+    // protocol from settings view
+    func settingsChanged(distanceUnits: String, bearingUnits: String) {
+        self.distanceUnits = distanceUnits
+        self.bearingUnits = bearingUnits
+        calculateButton.sendActions(for: .touchUpInside)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -63,6 +74,9 @@ class ViewController: UIViewController, SettingsViewControllerDelegate {
     }
     
     @IBAction func calculateButtonPressed(_ sender: UIButton) {
+        
+        // dismiss keyboard when button pressed
+        self.dismissKeyboard()
         
         // used to check for valid points
         var pointsOk: Bool = false
@@ -91,7 +105,7 @@ class ViewController: UIViewController, SettingsViewControllerDelegate {
             
             // convert distance to miles if distance units is miles
             if distanceUnits == "Miles" {
-                distance = distance * 0.621371
+                distance = (distance * 0.621371 * 100).rounded() / 100
             }
             
             // set distance label
@@ -102,8 +116,8 @@ class ViewController: UIViewController, SettingsViewControllerDelegate {
             bearing = (bearing * 100).rounded() / 100
             
             // convert degrees to mils if bearing units is mils
-            if bearingUnits == "Mil" {
-                bearing = bearing * 17.777777777778
+            if bearingUnits == "Mils" {
+                bearing = (bearing * 17.777777777778 * 100).rounded() / 100
             }
             
             // set bearing label
@@ -116,10 +130,17 @@ class ViewController: UIViewController, SettingsViewControllerDelegate {
     }
     
     @IBAction func clearButtonPressed(_ sender: UIButton) {
+        
+        // dismiss keyboard when button pressed
+        self.dismissKeyboard()
+        
         p1LatField.text = ""
         p2LatField.text = ""
         p1LongField.text = ""
         p2LongField.text = ""
+        
+        distanceLabel.text = "Distance:"
+        bearingLabel.text = "Bearing:"
     }
     
     @IBAction func settingsButtonPressed(_ sender: UIButton) {

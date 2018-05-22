@@ -9,8 +9,9 @@
 import UIKit
 
 internal protocol SettingsViewControllerDelegate {
-    func applyDistanceUnitsSelection(distanceUnits: String)
-    func applyBearingUnitsSelection(bearingUnits: String)
+    //func applyDistanceUnitsSelection(distanceUnits: String)
+    //func applyBearingUnitsSelection(bearingUnits: String)
+    func settingsChanged(distanceUnits: String, bearingUnits: String)
 }
 
 class SettingsViewController: UIViewController {
@@ -68,6 +69,7 @@ class SettingsViewController: UIViewController {
             self.unitsPickerView.selectRow(row, inComponent: 0, animated: false)
             print(self.unitsPickerView.selectedRow(inComponent: 0))
         }
+ 
         
         // reload picker with distance units
         self.unitsPickerView.reloadAllComponents()
@@ -84,6 +86,7 @@ class SettingsViewController: UIViewController {
         if let row: Int = self.pickerData.index(of: self.selection) {
             self.unitsPickerView.selectRow(row, inComponent: 0, animated: false)
         }
+ 
         
         // reload picker with bearing components
         self.unitsPickerView.reloadAllComponents()
@@ -121,8 +124,9 @@ class SettingsViewController: UIViewController {
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         if let d = self.delegate {
-            d.applyDistanceUnitsSelection(distanceUnits: distanceUnitsLabel.text!)
-            d.applyBearingUnitsSelection(bearingUnits: bearingUnitsLabel.text!)
+            //d.applyDistanceUnitsSelection(distanceUnits: distanceUnitsLabel.text!)
+            //d.applyBearingUnitsSelection(bearingUnits: bearingUnitsLabel.text!)
+            d.settingsChanged(distanceUnits: distanceUnitsLabel.text!, bearingUnits: bearingUnitsLabel.text!)
         }
         self.dismiss(animated: true, completion: nil)
     }
