@@ -2,7 +2,9 @@
 //  SettingsViewController.swift
 //  Geo Calculator App
 //
-//  Created by student on 5/17/18.
+//  Created by Edric Lin on 5/17/18.
+//  Created by Dimitri Haring on 5/17/18.
+//
 //  Copyright © 2018 GVSU. All rights reserved.
 //
 
